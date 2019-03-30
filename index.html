@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ikARos</title>
+    </head>
+    <body>
+        <h2>Welcome</h2>
+    </body>
+    <script>
+        setInterval(() => {navigator.geolocation.getCurrentPosition(sendPosition);}, 4000);
+
+        function sendPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const data = {
+                lat,
+                lon
+            }
+            console.log(data);
+
+            fetch("https://ikaros-server.herokuapp.com/send", {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {"Content-Type": "application/json"}
+            })
+            .then(response => {
+                if (response.status !== 200) {
+                    console.log('Error');
+                }
+            })
+        }
+    </script>
+</html>
